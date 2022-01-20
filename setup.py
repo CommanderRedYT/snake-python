@@ -7,10 +7,10 @@ setup(
     url='https://github.com/CommanderRedYT/snake-python',
     author='CommanderRedYT',
     license='GPLv3',
-    packages=['snake-python'],
+    packages=['snake_python'],
     entry_points={
         'console_scripts': [
-            'snake-python=snake-python.main:main',
+            'snake-python=snake_python.main:main',
         ],
     },
     python_requires='>=3.6',
