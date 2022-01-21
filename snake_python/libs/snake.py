@@ -42,6 +42,7 @@ class Snake:
     def getDirection(self) -> Direction:
         return self.direction
 
+
     def update(self) -> None:
 
         if self.moves:
@@ -88,6 +89,9 @@ class Snake:
     def isGuest(self) -> bool:
         return False
 
+    def getHead(self) -> pygame.Rect:
+        return self.segments[0].getRect()
+
 
 class GuestSnake(Snake):
     def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface) -> None:
@@ -109,11 +113,16 @@ class Segment:
         self.draw()
 
     def draw(self) -> None:
-        pygame.draw.rect(self.snake.screen, self.color, (self.x, self.y, self.width, self.width))
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.width)
+        pygame.draw.rect(self.snake.screen, self.color, self.rect)
 
     def update(self) -> None:
         self.counter += 1
         if self.counter >= self.snake.length:
-            pygame.draw.rect(self.snake.screen, (0, 0, 0), (self.x, self.y, self.width, self.width))
+            self.rect = pygame.Rect(self.x, self.y, self.width, self.width)
+            pygame.draw.rect(self.snake.screen, (0, 0, 0), self.rect)
             self.snake.segments.remove(self)
             self.snake.map[self.x][self.y] = 0
+
+    def getRect(self) -> pygame.Rect:
+        return self.rect
