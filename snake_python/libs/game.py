@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+from .food import Food
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame support prompt
 import pygame
@@ -26,6 +27,8 @@ class Game:
         self.snakes.append(
             Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover)
         )
+        self.food = Food(400, 400, 0, 0, self.screen)
+        self.food.draw()
 
     def getPlayerSnake(self) -> Snake | None:
         for s in self.snakes:
