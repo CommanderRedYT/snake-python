@@ -11,6 +11,7 @@ setup(
     entry_points={
         'console_scripts': [
             'snake-python=snake_python.main:main',
+            'snake-python-server=snake_python.server:server',
         ],
     },
     python_requires='>=3.6',
@@ -19,5 +20,8 @@ setup(
     install_requires=[
         'pygame>=2.1.2',
         'pygame-menu>=4.2.2',
+        'argparse>=1.4.0',
+        'asyncio>=3.4.3',
+        'websockets>=8.1.1',
     ],
 )

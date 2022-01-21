@@ -4,6 +4,10 @@ from enum import Enum
 from time import time
 import pygame
 
+class Difficulty(Enum):
+    NORMAL = 1
+    EASY = 2
+
 class Direction(Enum):
     UP = 0
     DOWN = 1
@@ -18,7 +22,7 @@ class OppositeDirection(Enum):
 
 
 class Snake:
-    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, gameover, easyMode: bool, moves: bool = True) -> None:
+    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, gameover, difficulty: Difficulty, moves: bool = True) -> None:
         self.x = int(x)
         self.y = int(y)
         self.color = color
@@ -32,8 +36,8 @@ class Snake:
         self.add_segments(5)
         self.moves = moves
         self.gameover = gameover
-        self.easyMode = easyMode
         self.score = 0
+        self.difficulty = difficulty
 
     def __len__(self) -> int:
         return len(self.segments)
@@ -79,7 +83,7 @@ class Snake:
             for segment in self.segments:
                 segment.update()
 
-            if not self.easyMode:
+            if self.difficulty == Difficulty.NORMAL:
                 if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
                     self.gameover()
                     return

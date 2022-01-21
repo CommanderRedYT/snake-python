@@ -1,13 +1,18 @@
 #!/usr/bin/python3
 import os
+
 from .food import Food
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # hide pygame support prompt
+from enum import Enum
+
 import pygame
 import pygame_menu
 
-from .snake import Direction, Snake
+from .snake import Direction, Snake, Difficulty
 
+class MessageHandler:
+    pass
 
 class Game:
     def __init__(self, width=640, height=480):
@@ -18,7 +23,7 @@ class Game:
         self.screen = None
         self.snakes = []
         self.gameover = False
-        self.easyMode = False
+        self.mode = Difficulty.NORMAL
         self.init()
 
     def init(self):
@@ -29,7 +34,7 @@ class Game:
         self.showMainMenu()
         self.screen.fill(self.bg_color)
         self.snakes.append(
-            Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover, self.easyMode)
+            Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover, self.mode)
         )
         self.food = Food(self.screen.get_width() - 40, self.screen.get_height() - 40, 40, 40, 20, 20, self.screen)
         self.food.draw()
@@ -61,11 +66,11 @@ class Game:
             self.mainMenu.disable()
 
         def setEasyMode(toggled):
-            self.easyMode = toggled
+            self.mode = Difficulty.EASY if toggled else Difficulty.NORMAL
 
         self.mainMenu = pygame_menu.Menu("Snake", self.screen.get_width(), self.screen.get_height(), theme=pygame_menu.themes.THEME_BLUE)
         self.mainMenu.add.button("Start", startGame)
-        self.mainMenu.add.toggle_switch("Easy mode", self.easyMode, setEasyMode)
+        self.mainMenu.add.toggle_switch("Easy mode", (self.mode == Difficulty.EASY), setEasyMode)
         self.mainMenu.mainloop(self.screen)
 
     def run(self):
