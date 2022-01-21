@@ -29,7 +29,7 @@ class Snake:
         self.screen = screen
         self.width = 20
         self.length = 0
-        self.add_segment()
+        self.add_segments(5)
         self.moves = moves
         self.gameover = gameover
 
@@ -80,6 +80,10 @@ class Snake:
     def add_segment(self) -> None:
         self.segments.append(Segment(self.x, self.y, self.width, self.color, self))
         self.length += 1
+
+    def add_segments(self, ammount) -> None:
+        for i in range(ammount):
+            self.add_segment()
 
     def isGuest(self) -> bool:
         return False

@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-from .libs.game import Game
+from libs.game import Game
 
 
 def main():
