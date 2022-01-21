@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(
-    name='snake-python',
+    name='snake-game-python',
     version='1.1.0',
     description='A simple snake clone writen in python',
     url='https://github.com/CommanderRedYT/snake-python',
