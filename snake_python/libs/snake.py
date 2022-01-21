@@ -18,7 +18,7 @@ class OppositeDirection(Enum):
 
 
 class Snake:
-    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, gameover, moves: bool = True) -> None:
+    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, gameover, easyMode: bool, moves: bool = True) -> None:
         self.x = int(x)
         self.y = int(y)
         self.color = color
@@ -32,6 +32,7 @@ class Snake:
         self.add_segments(5)
         self.moves = moves
         self.gameover = gameover
+        self.easyMode = easyMode
 
     def __len__(self) -> int:
         return len(self.segments)
@@ -72,9 +73,10 @@ class Snake:
             for segment in self.segments:
                 segment.update()
 
-            if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
-                self.gameover()
-                return
+            if not self.easyMode:
+                if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
+                    self.gameover()
+                    return
 
             self.segments.insert(0, Segment(self.x, self.y, self.width, self.color, self))
 
