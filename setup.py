@@ -17,7 +17,7 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     install_requires=[
-        pygame>=2.1.2
-        pygame-menu>=4.2.2
+        'pygame>=2.1.2',
+        'pygame-menu>=4.2.2',
     ],
 )
