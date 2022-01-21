@@ -29,7 +29,7 @@ class Snake:
         self.screen = screen
         self.width = 20
         self.length = 0
-        self.add_segment()
+        self.add_segments(5)
         self.moves = moves
         self.gameover = gameover
 
@@ -41,6 +41,7 @@ class Snake:
 
     def getDirection(self) -> Direction:
         return self.direction
+
 
     def update(self) -> None:
 
@@ -71,7 +72,7 @@ class Snake:
             for segment in self.segments:
                 segment.update()
 
-            if int(self.map[self.x][self.y]) > int(time()) and not self.isGuest(): # this is not working, please fix
+            if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
                 self.gameover()
                 return
 
@@ -81,8 +82,15 @@ class Snake:
         self.segments.append(Segment(self.x, self.y, self.width, self.color, self))
         self.length += 1
 
+    def add_segments(self, ammount) -> None:
+        for i in range(ammount):
+            self.add_segment()
+
     def isGuest(self) -> bool:
         return False
+
+    def getHead(self) -> pygame.Rect:
+        return self.segments[0].getRect()
 
 
 class GuestSnake(Snake):
@@ -105,11 +113,16 @@ class Segment:
         self.draw()
 
     def draw(self) -> None:
-        pygame.draw.rect(self.snake.screen, self.color, (self.x, self.y, self.width, self.width))
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.width)
+        pygame.draw.rect(self.snake.screen, self.color, self.rect)
 
     def update(self) -> None:
         self.counter += 1
         if self.counter >= self.snake.length:
-            pygame.draw.rect(self.snake.screen, (0, 0, 0), (self.x, self.y, self.width, self.width))
+            self.rect = pygame.Rect(self.x, self.y, self.width, self.width)
+            pygame.draw.rect(self.snake.screen, (0, 0, 0), self.rect)
             self.snake.segments.remove(self)
             self.snake.map[self.x][self.y] = 0
+
+    def getRect(self) -> pygame.Rect:
+        return self.rect
