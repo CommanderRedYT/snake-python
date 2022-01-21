@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='snake-python',
-    version='0.0.1',
+    version='0.0.2',
     description='A simple snake clone writen in python',
     url='https://github.com/CommanderRedYT/snake-python',
     author='CommanderRedYT',
