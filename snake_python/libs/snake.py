@@ -77,6 +77,9 @@ class Snake:
                 if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
                     self.gameover()
                     return
+                if self.screen.get_at((self.x, self.y)) == pygame.Color(255, 255, 255, 255):
+                    self.gameover()
+                    return
 
             self.segments.insert(0, Segment(self.x, self.y, self.width, self.color, self))
 
