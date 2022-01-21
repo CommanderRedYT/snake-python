@@ -72,7 +72,7 @@ class Snake:
             for segment in self.segments:
                 segment.update()
 
-            if int(self.map[self.x][self.y]) > int(time()) and not self.isGuest(): # this is not working, please fix
+            if self.getHead().x == 0 or self.getHead() == self.screen.get_width() or self.getHead().y == 0 or self.getHead().y == self.screen.get_height() and not self.isGuest():
                 self.gameover()
                 return
 
