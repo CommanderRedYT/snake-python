@@ -27,7 +27,7 @@ class Game:
         self.snakes.append(
             Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover)
         )
-        self.food = Food(400, 400, 0, 0, 20, 20, self.screen)
+        self.food = Food(self.screen.get_width() - 40, self.screen.get_height() - 40, 40, 40, 20, 20, self.screen)
         self.food.draw()
 
     def getPlayerSnake(self) -> Snake | None:

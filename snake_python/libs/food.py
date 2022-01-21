@@ -19,8 +19,12 @@ class Food:
         pygame.draw.rect(self.screen, (255, 0, 0), self.rect)
 
     def update(self):
-        self.positionX = random.randint(self.minY, self.maxX)
-        self.positionY = random.randint(self.minX, self.maxY)
+        # self.positionX = random.randint(self.minY, self.maxX)
+        # self.positionY = random.randint(self.minX, self.maxY)
+
+        # position needs to be aligned with the grid (self.width)
+        self.positionX = random.randint(int(self.minY / self.width), int(self.maxX / self.width)) * self.width
+        self.positionY = random.randint(int(self.minX / self.width), int(self.maxY / self.width)) * self.width
     
     def clearFood(self):
         pygame.draw.rect(self.screen, (0, 0, 0), self.rect)
