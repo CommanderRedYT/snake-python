@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 from enum import Enum
 
+from time import time
 import pygame
 
 class Direction(Enum):
@@ -17,7 +18,7 @@ class OppositeDirection(Enum):
 
 
 class Snake:
-    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, moves: bool = True) -> None:
+    def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface, gameover, moves: bool = True) -> None:
         self.x = int(x)
         self.y = int(y)
         self.color = color
@@ -30,6 +31,7 @@ class Snake:
         self.length = 0
         self.add_segment()
         self.moves = moves
+        self.gameover = gameover
 
     def __len__(self) -> int:
         return len(self.segments)
@@ -69,6 +71,10 @@ class Snake:
             for segment in self.segments:
                 segment.update()
 
+            if int(self.map[self.x][self.y]) > int(time()) and not self.isGuest(): # this is not working, please fix
+                self.gameover()
+                return
+
             self.segments.insert(0, Segment(self.x, self.y, self.width, self.color, self))
 
     def add_segment(self) -> None:
@@ -81,7 +87,7 @@ class Snake:
 
 class GuestSnake(Snake):
     def __init__(self, x: int, y: int, color: pygame.Color, screen: pygame.Surface) -> None:
-        super().__init__(x, y, color, screen, False)
+        super().__init__(x, y, color, screen, None, False)
 
     def isGuest(self) -> bool:
         return True
@@ -95,7 +101,7 @@ class Segment:
         self.width = width
         self.counter = 0
         self.snake = snake
-        snake.map[x][y] = self
+        snake.map[x][y] = time()
         self.draw()
 
     def draw(self) -> None:
@@ -106,3 +112,4 @@ class Segment:
         if self.counter >= self.snake.length:
             pygame.draw.rect(self.snake.screen, (0, 0, 0), (self.x, self.y, self.width, self.width))
             self.snake.segments.remove(self)
+            self.snake.map[self.x][self.y] = 0

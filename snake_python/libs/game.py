@@ -15,6 +15,7 @@ class Game:
         self.bg_color = (0, 0, 0)
         self.screen = None
         self.snakes = []
+        self.gameover = False
         self.init()
 
     def init(self):
@@ -23,7 +24,7 @@ class Game:
         pygame.display.set_caption(self.title)
         self.screen.fill(self.bg_color)
         self.snakes.append(
-            Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen)
+            Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover)
         )
 
     def getPlayerSnake(self) -> Snake | None:
@@ -32,9 +33,21 @@ class Game:
                 return s
         return None
 
+    def handleGameover(self):
+        self.gameover = True
+        self.screen.fill(pygame.Color(0, 0, 0))
+        self.screen.blit(
+            pygame.font.SysFont("monospace", 48).render("Game Over", True, pygame.Color(255, 255, 255)),
+            (self.width / 2 - 100, self.height / 2 - 10)
+        )
+        pygame.display.update()
+        pygame.time.wait(2000)
+        pygame.quit()
+        quit()
+
     def run(self):
         iterations = 0
-        while True:
+        while not self.gameover:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
