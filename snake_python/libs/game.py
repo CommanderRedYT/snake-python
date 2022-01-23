@@ -45,7 +45,7 @@ class Game:
         self.screen.fill(pygame.Color(0, 0, 0))
         self.screen.blit(
             pygame.font.SysFont("monospace", 48).render("Game Over", True, pygame.Color(255, 255, 255)),
-            (self.width / 2 - 100, self.height / 2 - 10),
+            (self.width / 2 - 100, self.height / 2 - 10)
         )
         self.screen.blit(
             pygame.font.SysFont("monospace", 48).render("Score: " + str(self.getPlayerSnake().getScore()), True, pygame.Color(255, 255, 255)),
