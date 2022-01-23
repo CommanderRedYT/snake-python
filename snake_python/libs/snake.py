@@ -33,6 +33,7 @@ class Snake:
         self.moves = moves
         self.gameover = gameover
         self.easyMode = easyMode
+        self.score = 0
 
     def __len__(self) -> int:
         return len(self.segments)
@@ -43,6 +44,11 @@ class Snake:
     def getDirection(self) -> Direction:
         return self.direction
 
+    def addScore(self):
+        self.score += 1
+
+    def getScore(self) -> int:
+        return self.score
 
     def update(self) -> None:
 
