@@ -2,10 +2,9 @@
 # websocket server that distributes all messages to all clients
 
 import argparse
-import asyncio
+from simple_websocket_server import WebSocket, WebSocketServer
 
-import websockets
-
+clients = {}
 
 def setup_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
@@ -27,13 +26,26 @@ def setup_args() -> argparse.Namespace:
     )
     return parser.parse_args()
 
-async def handle(websocket):
-    async for message in websocket:
-        await websocket.send(message)
+class RelayToAllConnections(WebSocket):
+    def handle(self):
+        for client in clients.values():
+            if client !=self:
+                client.send_message(self.data)
 
-async def server():
-    config = setup_args()
-    async with websockets.serve(handle, host=config.listen_address, port=config.listen_port) as server:
-        await asyncio.Future()
+    def broadcast(self, message):
+        for client in clients.values():
+            client.send_message(message)
 
-asyncio.run(server())
+    def connected(self):
+        print(self.address, 'connected')
+        clients[self.address] = self
+
+    def handle_close(self):
+        print(self.address, 'closed')
+        self.broadcast(f"I:{self.address} has disconnected")
+        del clients[self.address]
+
+def server():
+    args = setup_args()
+    server = WebSocketServer(args.listen_address, args.listen_port, RelayToAllConnections)
+    server.serve_forever()

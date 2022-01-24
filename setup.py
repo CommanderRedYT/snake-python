@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='snake-game-python',
-    version='1.1.1',
+    name='snake-python',
+    version='1.2.0',
     description='A simple snake clone writen in python',
     url='https://github.com/CommanderRedYT/snake-python',
     author='CommanderRedYT',
@@ -21,7 +21,11 @@ setup(
         'pygame>=2.1.2',
         'pygame-menu>=4.2.2',
         'argparse>=1.4.0',
+        'simple-websocket-server>=0.4.1',
+        'dnspython>=2.2.0',
+        'websocket-client>=1.2.3',
+        'rel>=0.4.7',
         'asyncio>=3.4.3',
-        'websockets>=8.1.1',
+        'websockets>=10.1',
     ],
 )
