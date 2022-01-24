@@ -53,11 +53,6 @@ class Snake:
     def update(self) -> None:
 
         if self.moves:
-            self.iterations += 1
-
-            if self.iterations % 300 != 0:
-                return
-            
             if self.direction == Direction.UP:
                 self.y -= self.width
             elif self.direction == Direction.DOWN:

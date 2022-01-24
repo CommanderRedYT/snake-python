@@ -20,6 +20,7 @@ class Game:
         self.gameover = False
         self.easyMode = False
         self.apples = 1
+        self.clock = pygame.time.Clock()
         self.init()
 
     def init(self):
@@ -122,6 +123,9 @@ class Game:
             if iterations > 1200:
                 pygame.display.set_icon(self.screen)
                 iterations = 0
+
+            self.clock.tick(15)
+            
 
     def update(self):
         for snake in self.snakes:
