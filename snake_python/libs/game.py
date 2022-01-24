@@ -19,6 +19,7 @@ class Game:
         self.snakes = []
         self.gameover = False
         self.easyMode = False
+        self.apples = 1
         self.init()
 
     def init(self):
@@ -31,8 +32,12 @@ class Game:
         self.snakes.append(
             Snake(self.width / 2, self.height / 2, pygame.Color(255, 255, 255), self.screen, self.handleGameover, self.easyMode)
         )
-        self.food = Food(self.screen.get_width() - 40, self.screen.get_height() - 40, 40, 40, 20, 20, self.screen)
-        self.food.draw()
+        
+        self.food = []
+        for i in range(self.apples):
+            food = Food(self.screen.get_width() - 40, self.screen.get_height() - 40, 40, 40, 20, 20, self.screen)
+            food.draw()
+            self.food.append(food)
 
     def getPlayerSnake(self) -> Snake | None:
         for s in self.snakes:
@@ -63,9 +68,17 @@ class Game:
         def setEasyMode(toggled):
             self.easyMode = toggled
 
+        def changeApples(apples):
+            self.apples = apples
+
         self.mainMenu = pygame_menu.Menu("Snake", self.screen.get_width(), self.screen.get_height(), theme=pygame_menu.themes.THEME_BLUE)
         self.mainMenu.add.button("Start", startGame)
         self.mainMenu.add.toggle_switch("Easy mode", self.easyMode, setEasyMode)
+        self.mainMenu.add.text_input('Apples: ',
+                                 default=1,
+                                 maxchar=1,
+                                 input_type=pygame_menu.locals.INPUT_INT,
+                                 onchange=changeApples)
         self.mainMenu.mainloop(self.screen)
 
     def run(self):
@@ -98,8 +111,9 @@ class Game:
                         quit()
 
             self.update()
-            if self.food.checkCollision(self.getPlayerSnake()):
-                self.getPlayerSnake().addScore()
+            for food in self.food:
+                if food.checkCollision(self.getPlayerSnake()):
+                    self.getPlayerSnake().addScore()
             
             pygame.display.update()
 
