@@ -28,9 +28,9 @@ class Game:
         self.mode = Difficulty.NORMAL
         self.init()
         self.messageHandler = None
-        self.server = ""
 
     def init(self):
+        self.server = ""
         pygame.init()
         self.gameover = False
         self.screen = pygame.display.set_mode((self.width, self.height))
